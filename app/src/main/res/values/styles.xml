@@ -1,0 +1,99 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="actionBarSize">50dp</item>
+        <item name="android:textColorPrimaryInverse">#000</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="AppTheme.Translucent" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="NotificationText" parent="android:TextAppearance.StatusBar.EventContent" />
+    <style name="NotificationTitle" parent="android:TextAppearance.StatusBar.EventContent.Title" />
+
+    <style name="dossierContainer">
+        <item name="android:background">@drawable/ripple</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:padding">4dp</item>
+    </style>
+
+    <style name="dossierContainerLight">
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:padding">4dp</item>
+    </style>
+
+    <style name="dossierTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/calendarBackground</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="dossierTitleLight">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="dossierSubtext">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ff999999</item>
+    </style>
+
+    <style name="dossierDate">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/calendarBackground</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="dossierDateLight">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="calendarHeaderStyle">
+        <item name="android:textColor">#fff</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="calendarWeekStyle">
+        <item name="android:textColor">#B0BEC5</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="calendarDateStyle">
+        <item name="android:textColor">#fff</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="dossiesTitleStyle">
+        <item name="android:textColor">@color/calendarBackground</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+</resources>

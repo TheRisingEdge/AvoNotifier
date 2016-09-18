@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#03A9F4</color>
+    <color name="primary_dark">#1565C0</color>
+    <color name="primary_light">#03A9F4</color>
+    <color name="accent">#E040FB</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+
+    <color name="colorPrimaryDark">#13293D</color>
+    <color name="colorPrimary">#16324F</color>
+    <color name="calendarEvent">#3e92cc</color>
+    <color name="calendarBackground">#424242</color>
+    <color name="dossiesBackground">#F5F5F5</color>
+
+    <color name="border">#00BCD4</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="textColor">#ED6A5E</color>
+    <color name="itemListBorder">#ffe0e0</color>
+    <color name="dateTextColor">#000</color>
+
+    <color name="calendarCurrentDay">#2A628F</color>
+    <color name="calendarSelectedDay">#3E92CC</color>
+    <color name="calendarText">#FFF</color>
+</resources>

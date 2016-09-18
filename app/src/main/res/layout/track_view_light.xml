@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="left|center"
+    android:orientation="horizontal"
+    android:padding="4dp"
+    style="@style/dossierContainerLight" >
+
+    <View
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:background="@color/calendarSelectedDay" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/dossierTitleLight"
+                android:text="123/343/234" />
+
+            <TextView
+                android:id="@+id/dossierDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                style="@style/dossierDateLight"
+                android:gravity="right"
+                android:text="Luni, 7 Octombrie" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="Mandat arestare european"
+        style="@style/dossierSubtext" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="Curtea de Justitie Cluj"
+        style="@style/dossierSubtext" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="Recurs"
+        style="@style/dossierSubtext" />
+
+    </LinearLayout>
+
+</LinearLayout>

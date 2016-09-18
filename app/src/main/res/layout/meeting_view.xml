@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="1"
+    android:paddingTop="10dp" >
+
+<TableRow>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="@dimen/dossie_column_left_weight"
+        android:layout_height="wrap_content"
+        android:text="Data"/>
+
+    <TextView
+        android:id="@+id/dossieMeetingDate"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="02/08/2016" />
+
+    <TextView
+        android:id="@+id/dossieMeetingHour"
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="wrap_content"
+        android:text="10:00" />
+</TableRow>
+
+<TableRow>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="@dimen/dossie_column_left_weight"
+        android:layout_height="wrap_content"
+        android:text="Document"/>
+
+    <TextView
+        android:id="@+id/dossieMeetingDocument"
+        android:layout_width="0dp"
+        android:layout_weight="@dimen/dossie_column_right_weight"
+        android:layout_height="wrap_content"
+        android:text="Incheiere de sedinta" />
+</TableRow>
+
+<TableRow>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="@dimen/dossie_column_left_weight"
+        android:layout_height="wrap_content"
+        android:text="Solutie"/>
+
+    <TextView
+        android:id="@+id/dossieMeetingSolution"
+        android:layout_width="0dp"
+        android:layout_weight="@dimen/dossie_column_right_weight"
+        android:layout_height="wrap_content"
+        android:text="Solutie amanata" />
+</TableRow>
+
+<TableRow>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="@dimen/dossie_column_left_weight"
+        android:layout_height="wrap_content"
+        android:text="Rezumat"/>
+
+    <TextView
+        android:id="@+id/dossieMeetingReview"
+        android:layout_width="0dp"
+        android:layout_weight="@dimen/dossie_column_right_weight"
+        android:layout_height="wrap_content"
+        android:text="Meeting details go here lorem ipsum lorem donor" />
+</TableRow>
+
+</TableLayout>

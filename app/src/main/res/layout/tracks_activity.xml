@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.TracksActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:fitsSystemWindows="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_behavior="com.example.constantin.avonotifier.activities.FlingBehavior" >
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+                <ImageButton
+                    android:id="@+id/googleCalendarBtn"
+                    android:scaleType="fitCenter"
+                    android:layout_width="50dp"
+                    android:layout_margin="8dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:src="@android:drawable/ic_menu_my_calendar"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:onClick="openGoogleCalendar" />
+
+            </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/calendarBackground" >
+
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mcv_tileHeight="50dp"
+                app:mcv_tileWidth="58dp"
+                app:mcv_arrowColor="@android:color/darker_gray"
+                app:mcv_calendarMode="month"
+                app:mcv_firstDayOfWeek="monday"
+                app:mcv_headerTextAppearance="@style/calendarHeaderStyle"
+                app:mcv_weekDayTextAppearance="@style/calendarWeekStyle"
+                app:mcv_dateTextAppearance="@style/calendarDateStyle"
+                app:mcv_selectionColor="@color/calendarEvent"
+                app:mcv_showOtherDates="out_of_range" />
+
+                <LinearLayout
+                    android:animateLayoutChanges="true"
+                    android:id="@+id/selectedDayMeetings"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/track_view_light"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/item_list"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:name="com.example.constantin.avonotifier.ItemListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="LinearLayoutManager"
+                tools:context=".activities.TracksActivity"
+                tools:listitem="@layout/track_view" />
+                </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_input_add"
+        android:onClick="onNewDossieFabHandler" />
+
+</android.support.design.widget.CoordinatorLayout>

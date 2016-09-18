@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:elevation="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:stretchColumns="1">
+
+    <TableRow>
+        <TextView style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Info"
+            android:paddingBottom="10dp" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight=".3"
+            android:layout_height="wrap_content"
+            android:text="Modificat"/>
+
+        <TextView
+            android:id="@+id/dossieModified"
+            android:layout_width="0dp"
+            android:layout_weight=".7"
+            android:layout_height="wrap_content"
+            android:text="12.10.2013"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight=".3"
+            android:layout_height="wrap_content"
+            android:text="Inregistrat"/>
+
+        <TextView
+            android:id="@+id/dossieRegistered"
+            android:layout_width="0dp"
+            android:layout_weight=".7"
+            android:layout_height="wrap_content"
+            android:text="12.10.2013"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight=".3"
+            android:layout_height="wrap_content"
+            android:text="Sectie"/>
+
+        <TextView
+            android:id="@+id/dossieSection"
+            android:layout_width="0dp"
+            android:layout_weight=".7"
+            android:layout_height="wrap_content"
+            android:text="Penal"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight=".3"
+            android:layout_height="wrap_content"
+            android:text="Materie"/>
+
+        <TextView
+            android:id="@+id/dossieMaterie"
+            android:layout_width="0dp"
+            android:layout_weight=".7"
+            android:layout_height="wrap_content"
+            android:text="Penal"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight=".3"
+            android:layout_height="wrap_content"
+            android:text="Obiect"/>
+
+        <TextView
+            android:id="@+id/dossieTarget"
+            android:layout_width="0dp"
+            android:layout_weight=".7"
+            android:layout_height="wrap_content"
+            android:text="Penal"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight=".3"
+            android:layout_height="wrap_content"
+            android:text="Stadiu"/>
+
+        <TextView
+            android:id="@+id/dossieState"
+            android:layout_width="0dp"
+            android:layout_weight=".7"
+            android:layout_height="wrap_content"
+            android:text="Penal"/>
+    </TableRow>
+
+</TableLayout>
+</android.support.v7.widget.CardView>
+
