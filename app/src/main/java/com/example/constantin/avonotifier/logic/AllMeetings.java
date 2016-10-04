@@ -16,7 +16,7 @@ class TimeOrderedMeetings implements Comparator<Meeting> {
 
     @Override
     public int compare(Meeting lhs, Meeting rhs) {
-        return (int)(lhs.getTime() - rhs.getTime());
+        return (int)(lhs.getMeetingTime().inMillis - rhs.getMeetingTime().inMillis);
     }
 
     public List<Meeting> list() {
@@ -24,10 +24,10 @@ class TimeOrderedMeetings implements Comparator<Meeting> {
     }
 }
 
-public class ScheduledMeetings {
+public class AllMeetings {
     List<Dossie> dossies;
 
-    public ScheduledMeetings(List<Dossie> dossies) {
+    public AllMeetings(List<Dossie> dossies) {
         this.dossies = dossies;
     }
 

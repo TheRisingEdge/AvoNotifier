@@ -30,7 +30,7 @@ public class DossieNotifications {
 
     public void showUpdated(Meeting meeting) {
         String dossieId = meeting.getDossieId();
-        String message = String.format("%s -> %s", dossieId, meetingFormatter.getDay(meeting.getTime()));
+        String message = String.format("%s -> %s", dossieId, meetingFormatter.getDay(meeting.getMeetingTime().inMillis));
 
         Intent intent = new Intent(context, destActivity);
         intent.putExtra(DetailsFragment.DOSSIE_ID, dossieId);
@@ -59,7 +59,7 @@ public class DossieNotifications {
         for (Meeting m: meetings) {
             RemoteViews mEntry = new RemoteViews(context.getPackageName(), R.layout.notification_entry);
             mEntry.setTextViewText(R.id.dossieId, m.getDossieId());
-            mEntry.setTextViewText(R.id.dossieMeetingDate, meetingFormatter.getDay(m.getTime()));
+            mEntry.setTextViewText(R.id.dossieMeetingDate, meetingFormatter.getDay(m.getMeetingTime().inMillis));
             contentView.addView(R.id.entries, mEntry);
         }
 

@@ -1,41 +1,25 @@
 package com.example.constantin.avonotifier.logic;
 
-import java.util.Calendar;
-
 public class Meeting {
     String id;
-    String dossieId;
-    MTime meetingTime;
-    long time;
+    String dossierId;
+    Time meetingTime;
 
-    public Meeting(String id, String dossieId, long time) {
+    public Meeting(String id, String dossierId, Time time) {
         this.id = id;
-        this.dossieId = dossieId;
-        this.time = time;
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(time);
-
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DATE);
-
-        this.meetingTime = new MTime(year, month, day);
+        this.dossierId = dossierId;
+        this.meetingTime = time;
     }
 
     public String getDossieId() {
-        return dossieId;
+        return dossierId;
     }
 
     public String getId() {
         return id;
     }
 
-    public long getTime() {
-        return time;
-    }
-
-    public MTime getMeetingTime() {
+    public Time getMeetingTime() {
         return meetingTime;
     }
 

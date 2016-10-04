@@ -9,46 +9,42 @@ import java.util.List;
 import java.util.Map;
 
 public class MeetingsCalendar {
-    HashMap<DayKey, Integer> dayEventsCount;
-    HashMap<DayKey, List<Meeting>> dayMeetings;
-    List<Meeting> NO_MEETINGS;
+    List<Meeting> NO_MEETINGS = new ArrayList<>();
+    HashMap<DayKey, List<Meeting>> calendar;
 
     public MeetingsCalendar(Collection<Meeting> meetings) {
-        this.dayEventsCount = new HashMap<>();
-        this.dayMeetings = new HashMap<>();
-        this.NO_MEETINGS = new ArrayList<>();
+        calendar = new HashMap<>();
+        AddMeetings(meetings);
+    }
 
-        for (Meeting m: meetings) {
-            DayKey day = new DayKey(m.getMeetingTime());
-            List<Meeting> meetingsThisDay = dayMeetings.containsKey(day) ? dayMeetings.get(day): new ArrayList<Meeting>();
+    public void AddMeetings(Collection<Meeting> meetings) {
+         for (Meeting meeting: meetings) {
+            DayKey day = new DayKey(meeting.getMeetingTime());
+            List<Meeting> meetingsThisDay = calendar.containsKey(day) ? calendar.get(day): new ArrayList<Meeting>();
 
-            meetingsThisDay.add(m);
-            dayMeetings.put(day, meetingsThisDay);
-            dayEventsCount.put(day, meetingsThisDay.size());
+            meetingsThisDay.add(meeting);
+            calendar.put(day, meetingsThisDay);
         }
     }
 
-    public List<CalendarDay> daysWith(int countMeetings) {
+    public List<CalendarDay> daysWith(int minCount, int maxCount) {
         List<CalendarDay> bucket = new ArrayList<>();
-        boolean collectAll = countMeetings == -1;
 
-        List<Map.Entry<DayKey, Integer>> entries = new ArrayList<>(dayEventsCount.entrySet());
-        for (Map.Entry<DayKey, Integer> kv: entries) {
-            DayKey dayKey = kv.getKey();
-            int meetingsCount = kv.getValue();
-
-            if (collectAll || meetingsCount == countMeetings) {
-                MTime mtime = dayKey.mTime;
-                bucket.add(CalendarDay.from(mtime.year, mtime.month, mtime.day));
-                dayEventsCount.remove(kv.getKey());
+        for (Map.Entry<DayKey, List<Meeting>> kv: calendar.entrySet()) {
+            DayKey day = kv.getKey();
+            int meetingsThisDay = kv.getValue().size();
+            if (minCount <= meetingsThisDay && meetingsThisDay < maxCount) {
+                Time time = day.time;
+                CalendarDay calendarDay = CalendarDay.from(time.year, time.month, time.day);
+                bucket.add(calendarDay);
             }
         }
 
         return bucket;
     }
 
-    public List<Meeting> meetingsInDay(MTime mtime) {
-        DayKey key = new DayKey(mtime);
-        return dayMeetings.containsKey(key) ? dayMeetings.get(key): NO_MEETINGS;
+    public List<Meeting> meetingsInDay(Time time) {
+        DayKey day = new DayKey(time);
+        return calendar.containsKey(day) ? calendar.get(day): NO_MEETINGS;
     }
 }

@@ -24,15 +24,14 @@ import com.example.constantin.avonotifier.impl.GoogleCalenderScheduler;
 import com.example.constantin.avonotifier.impl.ToastMessages;
 import com.example.constantin.avonotifier.logic.AppDateFormatter;
 import com.example.constantin.avonotifier.logic.Dossie;
-import com.example.constantin.avonotifier.logic.DossieFetcher;
+import com.example.constantin.avonotifier.logic.DossierDownloader;
 import com.example.constantin.avonotifier.logic.DossieNotifications;
 import com.example.constantin.avonotifier.logic.IAppMessages;
 import com.example.constantin.avonotifier.logic.ICalendarScheduler;
 import com.example.constantin.avonotifier.logic.IUserStorage;
-import com.example.constantin.avonotifier.logic.MTime;
+import com.example.constantin.avonotifier.logic.Time;
 import com.example.constantin.avonotifier.logic.Meeting;
 import com.example.constantin.avonotifier.logic.MeetingsCalendar;
-import com.example.constantin.avonotifier.logic.ScheduledMeetings;
 import com.example.constantin.avonotifier.logic.Track;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -48,7 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TracksActivity extends AppCompatActivity
-        implements DossieFetcher.Handler, TrackView.Handler, OnDateSelectedListener {
+        implements DossierDownloader.Handler, TrackTappedHandler, OnDateSelectedListener {
     boolean mTwoPane;
     IAppMessages inAppNotifications;
     IAppMessages calendarNotifications;
@@ -72,7 +71,7 @@ public class TracksActivity extends AppCompatActivity
 
     IUserStorage userStorage;
     MeetingsCalendar meetingsCalendar;
-    DossieFetcher dossieTracker;
+    DossierDownloader dossieTracker;
     DossieNotifications notifications;
     ICalendarScheduler calendar;
     AppDateFormatter formatter;
@@ -88,14 +87,12 @@ public class TracksActivity extends AppCompatActivity
         userStorage = Globals.userStorage;
         dossieTracker = Globals.dossieTracker;
         formatter = Globals.dateFormatter;
+        meetingsCalendar = Globals.meetingsCalendar;
 
         inAppNotifications = new ToastMessages(getApplicationContext());
         calendarNotifications = new ToastMessages(getApplicationContext(), Gravity.TOP);
         notifications = new DossieNotifications(this, DetailsActivity.class, formatter);
         calendar = new GoogleCalenderScheduler(this);
-
-        ScheduledMeetings scheduled = new ScheduledMeetings(userStorage.getDossies());
-        meetingsCalendar = new MeetingsCalendar(scheduled.all());
 
         dossieTracker.AddHandler(this);
         mTwoPane = findViewById(R.id.item_detail_container) != null;
@@ -108,34 +105,42 @@ public class TracksActivity extends AppCompatActivity
         calendarView.setSaveEnabled(true);
         calendarView.setSelectedDate(Calendar.getInstance());
 
-        List<CalendarDay> daysWithOneDot = meetingsCalendar.daysWith(1);
-        List<CalendarDay> daysWithTwoDots = meetingsCalendar.daysWith(2);
-        List<CalendarDay> daysWithThreeDots = meetingsCalendar.daysWith(-1);
+        UpdateCalendarDecorations();
+
+        calendarView.setOnDateChangedListener(this);
+    }
+
+    private void UpdateCalendarDecorations() {
+        List<CalendarDay> daysWithOneDot = meetingsCalendar.daysWith(1, 2);
+        List<CalendarDay> daysWithTwoDots = meetingsCalendar.daysWith(2, 3);
+        List<CalendarDay> daysWithThreeDots = meetingsCalendar.daysWith(3, Integer.MAX_VALUE);
 
         DotsDecorator oneDotDecorator = new DotsDecorator(daysWithOneDot, new DotSpan(5, Color.WHITE));
         DotsDecorator twoDotDecorator = new DotsDecorator(daysWithTwoDots, new TwoDotsSpan(5, Color.WHITE));
         DotsDecorator threeDotDecorator = new DotsDecorator(daysWithThreeDots, new ThreeDotsSpan(5, Color.WHITE));
 
+        calendarView.removeDecorators();
         calendarView.addDecorator(oneDotDecorator);
         calendarView.addDecorator(twoDotDecorator);
         calendarView.addDecorator(threeDotDecorator);
-        calendarView.setOnDateChangedListener(this);
     }
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay day, boolean selected) {
-        MTime mtime = new MTime(day.getYear(), day.getMonth(), day.getDay());
-        List<Meeting> meetings = meetingsCalendar.meetingsInDay(mtime);
+        Time time = new Time(0, day.getYear(), day.getMonth(), day.getDay());
+        List<Meeting> meetings = meetingsCalendar.meetingsInDay(time);
 
         selectedDayMeetings.removeAllViews();
 
         LayoutInflater inflater = LayoutInflater.from(selectedDayMeetings.getContext());
         for(Meeting meeting: meetings) {
-            View view = inflater.inflate(R.layout.track_view_light, selectedDayMeetings, true);
+            View view = inflater.inflate(R.layout.track_view_light, null, false);
 
             Track track = new Track(meeting.getDossieId());
-            TrackView trackView = new TrackView(view, formatter, TracksActivity.this);
+            TrackViewLight trackView = new TrackViewLight(view, formatter, TracksActivity.this);
             trackView.Configure(track, meeting);
+
+            selectedDayMeetings.addView(view);
         }
     }
 
@@ -169,34 +174,21 @@ public class TracksActivity extends AppCompatActivity
     }
 
     @Override
-    public void HandleTracked(DossieFetcher.Result result) {
+    public void HandleDossierDownload(DossierDownloader.Result result) {
         userStorage.addTrack(result.track);
-        userStorage.addDossier(DossieFromTrack(result.track));
+        userStorage.addDossier(result.dossier);
+
+        meetingsCalendar.AddMeetings(result.dossier.getMeetings());
+        UpdateCalendarDecorations();
+
 
         List<Track> tracks = userStorage.getTracks();
         recyclerAdapter.notifyItemChanged(tracks.size() - 1);
         inAppNotifications.show("Traking: " + result.track.getDossieId());
     }
 
-    public static Dossie DossieFromTrack(Track track) {
-        return new Dossie(track.getDossieId(), FakeMeetings(track.getDossieId()));
-    }
-
-    public static List<Meeting> FakeMeetings(String dossieId) {
-        ArrayList<Meeting> meetings = new ArrayList<>(20);
-        Calendar calendar = Calendar.getInstance();
-        Random random = new Random();
-
-        for (int i = 0; i < 20; i++) {
-            calendar.add(Calendar.HOUR_OF_DAY, i * 5 * random.nextInt(10));
-            meetings.add(new Meeting(dossieId, dossieId, calendar.getTimeInMillis()));
-        }
-
-        return meetings;
-    }
-
     @Override
-    public void TrackClicked(Track track) {
+    public void TrackTapped(Track track) {
         Context context = recyclerView.getContext();
         if (mTwoPane) {
             Bundle arguments = new Bundle();
@@ -212,35 +204,24 @@ public class TracksActivity extends AppCompatActivity
             Intent intent = new Intent(context, DetailsActivity.class);
             intent.putExtra(DetailsFragment.DOSSIE_ID, track.getDossieId());
             context.startActivity(intent);
-
-//            Dossie dossie = userStorage.getDossie(track.getDossieId());
-//            Meeting[] meetings = dossie.getMeetings();
-//            notifications.showUpdated(meetings[meetings.length - 1]);
         }
     }
 
     public void onNewDossieFabHandler(View view) {
         showAddTrackDialog();
     }
-
-    public void showUpcomingMeetings(View view) {
-        ScheduledMeetings schedule = new ScheduledMeetings(userStorage.getDossies());
-        List<Meeting> upcoming = schedule.upcoming(5, 7);
-        notifications.showUpcoming(upcoming);
-    }
-
 }
 
 class TracksAdapter extends RecyclerView.Adapter<TrackView> {
     Context context;
-    TrackView.Handler trackHandler;
+    TrackTappedHandler trackHandler;
     IUserStorage IUserStorage;
     AppDateFormatter formatter;
 
     public TracksAdapter(Context context,
                          IUserStorage IUserStorage,
                          AppDateFormatter formatter,
-                         TrackView.Handler itemHandler) {
+                         TrackTappedHandler itemHandler) {
         this.context = context;
         this.IUserStorage = IUserStorage;
         this.formatter = formatter;
@@ -270,13 +251,13 @@ class TracksAdapter extends RecyclerView.Adapter<TrackView> {
     }
 }
 
-class TrackView extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public interface Handler {
-        void TrackClicked(Track track);
-    }
+interface TrackTappedHandler {
+    void TrackTapped(Track track);
+}
 
+class TrackView extends RecyclerView.ViewHolder implements View.OnClickListener {
     View view;
-    Handler clickHandler;
+    TrackTappedHandler clickHandler;
     AppDateFormatter formatter;
 
     @BindView(R.id.id)
@@ -288,7 +269,7 @@ class TrackView extends RecyclerView.ViewHolder implements View.OnClickListener 
     @BindView(R.id.dossierDate)
     TextView dossierDate;
 
-    public TrackView(View view, AppDateFormatter formatter, Handler handler) {
+    public TrackView(View view, AppDateFormatter formatter, TrackTappedHandler handler) {
         super(view);
         this.view = view;
         this.formatter = formatter;
@@ -301,28 +282,24 @@ class TrackView extends RecyclerView.ViewHolder implements View.OnClickListener 
         view.setTag(R.string.trackViewTag, track);
         view.setOnClickListener(this);
 
-        idView.setText(track.getDossieId());
-        contentView.setText(track.getDossieId());
-        dossierDate.setText(formatter.getDay(meeting.getTime()));
+        idView.setText(meeting.getDossieId());
+        contentView.setText(meeting.getId());
+        dossierDate.setText(formatter.getDay(meeting.getMeetingTime().inMillis));
     }
 
     @Override
     public void onClick(View v) {
         Track track = (Track)v.getTag(R.string.trackViewTag);
-        clickHandler.TrackClicked(track);
+        clickHandler.TrackTapped(track);
     }
 }
 
-class TrackViewLight extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public interface Handler {
-        void TrackClicked(Track track);
-    }
-
+class TrackViewLight implements View.OnClickListener {
     View view;
-    Handler clickHandler;
+    TrackTappedHandler clickHandler;
     AppDateFormatter formatter;
 
-    @BindView(R.id.id)
+    @BindView(R.id.dossierId)
     TextView idView;
 
     @BindView(R.id.content)
@@ -331,8 +308,7 @@ class TrackViewLight extends RecyclerView.ViewHolder implements View.OnClickList
     @BindView(R.id.dossierDate)
     TextView dossierDate;
 
-    public TrackViewLight(View view, AppDateFormatter formatter, Handler handler) {
-        super(view);
+    public TrackViewLight(View view, AppDateFormatter formatter, TrackTappedHandler handler) {
         this.view = view;
         this.formatter = formatter;
         this.clickHandler = handler;
@@ -344,14 +320,14 @@ class TrackViewLight extends RecyclerView.ViewHolder implements View.OnClickList
         view.setTag(R.string.trackViewTag, track);
         view.setOnClickListener(this);
 
-        idView.setText(track.getDossieId());
-        contentView.setText(track.getDossieId());
-        dossierDate.setText(formatter.getDay(meeting.getTime()));
+        idView.setText(meeting.getDossieId());
+        contentView.setText(meeting.getId());
+        dossierDate.setText(formatter.getDay(meeting.getMeetingTime().inMillis));
     }
 
     @Override
     public void onClick(View v) {
         Track track = (Track)v.getTag(R.string.trackViewTag);
-        clickHandler.TrackClicked(track);
+        clickHandler.TrackTapped(track);
     }
 }

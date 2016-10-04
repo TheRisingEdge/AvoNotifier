@@ -4,29 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:stretchColumns="1"
-    android:paddingTop="10dp" >
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp" >
 
 <TableRow>
     <TextView
-        android:layout_width="0dp"
-        android:layout_weight="@dimen/dossie_column_left_weight"
-        android:layout_height="wrap_content"
-        android:text="Data"/>
-
-    <TextView
         android:id="@+id/dossieMeetingDate"
         android:layout_width="0dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.7"
         android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceListItem"
+        style="@style/textMedium"
+        android:textStyle="bold"
         android:text="02/08/2016" />
 
     <TextView
         android:id="@+id/dossieMeetingHour"
         android:layout_width="0dp"
-        android:layout_weight="0.2"
+        android:layout_weight="0.3"
         android:layout_height="wrap_content"
-        android:text="10:00" />
+        android:gravity="center"
+        android:text="10:00"
+        style="@style/textMedium"
+        android:textStyle="bold" />
 </TableRow>
 
 <TableRow>
@@ -34,13 +33,16 @@
         android:layout_width="0dp"
         android:layout_weight="@dimen/dossie_column_left_weight"
         android:layout_height="wrap_content"
-        android:text="Document"/>
+        android:text="Document"
+        style="@style/textMedium"
+        />
 
     <TextView
         android:id="@+id/dossieMeetingDocument"
         android:layout_width="0dp"
         android:layout_weight="@dimen/dossie_column_right_weight"
         android:layout_height="wrap_content"
+        style="@style/textMedium"
         android:text="Incheiere de sedinta" />
 </TableRow>
 
@@ -49,6 +51,7 @@
         android:layout_width="0dp"
         android:layout_weight="@dimen/dossie_column_left_weight"
         android:layout_height="wrap_content"
+        style="@style/textMedium"
         android:text="Solutie"/>
 
     <TextView
@@ -56,22 +59,19 @@
         android:layout_width="0dp"
         android:layout_weight="@dimen/dossie_column_right_weight"
         android:layout_height="wrap_content"
+        style="@style/textMedium"
         android:text="Solutie amanata" />
 </TableRow>
 
-<TableRow>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_weight="@dimen/dossie_column_left_weight"
-        android:layout_height="wrap_content"
-        android:text="Rezumat"/>
-
+<TableRow
+    android:layout_marginTop="2dp">
     <TextView
         android:id="@+id/dossieMeetingReview"
         android:layout_width="0dp"
-        android:layout_weight="@dimen/dossie_column_right_weight"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
+        style="@style/textMedium"
+        android:textStyle="italic"
         android:text="Meeting details go here lorem ipsum lorem donor" />
 </TableRow>
-
 </TableLayout>

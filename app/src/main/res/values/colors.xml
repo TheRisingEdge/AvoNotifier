@@ -21,5 +21,6 @@
 
     <color name="calendarCurrentDay">#2A628F</color>
     <color name="calendarSelectedDay">#3E92CC</color>
+    <color name="calendarSelectedBanner">#663E92CC</color>
     <color name="calendarText">#FFF</color>
 </resources>

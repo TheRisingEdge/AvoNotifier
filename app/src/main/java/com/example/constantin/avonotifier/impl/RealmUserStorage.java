@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.constantin.avonotifier.logic.Dossie;
 import com.example.constantin.avonotifier.logic.IUserStorage;
 import com.example.constantin.avonotifier.logic.Meeting;
+import com.example.constantin.avonotifier.logic.Time;
 import com.example.constantin.avonotifier.logic.Track;
 
 import io.realm.Realm;
@@ -12,10 +13,12 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class RealmUserStorage implements IUserStorage {
     Realm realm;
+    Calendar calendar;
 
     public RealmUserStorage(Context context) {
         RealmConfiguration config = new RealmConfiguration
@@ -24,6 +27,7 @@ public class RealmUserStorage implements IUserStorage {
                 .build();
 
         realm = Realm.getInstance(config);
+        calendar = Calendar.getInstance();
     }
 
     @Override
@@ -84,13 +88,14 @@ public class RealmUserStorage implements IUserStorage {
     }
 
     Meeting Map(RealmMeeting rm) {
-        return new Meeting(rm.getId(), rm.getDossierId(), rm.getTime());
+        calendar.clear();
+        calendar.setTimeInMillis(rm.getTime());
+        return new Meeting(rm.getId(), rm.getDossierId(), Time.FromCalendar(calendar));
     }
 
     RealmDossier Map(Dossie dossie) {
         RealmDossier rd = new RealmDossier();
         rd.setDossierId(dossie.getId());
-
 
         for(Meeting m: dossie.getMeetings()) {
             rd.getMeetings().add(Map(m));
@@ -101,8 +106,9 @@ public class RealmUserStorage implements IUserStorage {
 
     RealmMeeting Map(Meeting m) {
         RealmMeeting rm = new RealmMeeting();
+        rm.setId(m.getId());
         rm.setDossierId(m.getDossieId());
-        rm.setTime(m.getTime());
+        rm.setTime(m.getMeetingTime().inMillis);
         return rm;
     }
 }

@@ -48,9 +48,6 @@ public class DetailsFragment extends Fragment {
 }
 
 class DossieDetailsView {
-    @BindView(R.id.dossieMeetingDate)
-    TextView date;
-
     @BindView(R.id.dossieRegistered)
     TextView registered;
 
@@ -72,7 +69,6 @@ class DossieDetailsView {
     public DossieDetailsView(View view, Dossie dossie, AppDateFormatter formatter, LayoutInflater inflater)  {
         ButterKnife.bind(this, view);
 
-        date.setText(formatter.getDay(dossie.getDate()));
         registered.setText(formatter.getDay(dossie.getRegistered()));
         modified.setText(formatter.getDay(dossie.getModified()));
         target.setText(dossie.getTarget());
@@ -92,8 +88,8 @@ class DossieDetailsView {
 }
 
 class MeetingView {
-    @BindView(R.id.dossieMeetingDate)
-    TextView date;
+//    @BindView(R.id.dossieMeetingDate)
+//    TextView date;
 
     @BindView(R.id.dossieMeetingHour)
     TextView hour;
@@ -110,8 +106,8 @@ class MeetingView {
     public MeetingView(View view, Meeting meeting, AppDateFormatter formatter) {
         ButterKnife.bind(this, view);
 
-        date.setText(formatter.getDay(meeting.getTime()));
-        hour.setText(formatter.getHour(meeting.getTime()));
+        //date.setText(formatter.getDay(meeting.getMeetingTime().inMillis));
+        hour.setText(formatter.getHour(meeting.getMeetingTime().inMillis));
         document.setText(meeting.getDocument());
         solution.setText(meeting.getSolution());
         review.setText(meeting.getReview());

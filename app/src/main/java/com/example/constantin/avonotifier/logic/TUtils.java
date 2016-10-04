@@ -1,17 +1,17 @@
 package com.example.constantin.avonotifier.logic;
 
 class DayKey {
-    public MTime mTime;
+    public Time time;
 
-    public DayKey(MTime meetingTime) {
-        this.mTime = meetingTime;
+    public DayKey(Time meetingTime) {
+        this.time = meetingTime;
     }
 
     @Override
     public int hashCode() {
-        return 10000 * mTime.year +
-               100 * mTime.month +
-               mTime.day;
+        return 10000 * time.year +
+               100 * time.month +
+               time.day;
     }
 
     @Override
@@ -21,8 +21,8 @@ class DayKey {
         }
 
         DayKey other = (DayKey)o;
-        return mTime.day == other.mTime.day &&
-               mTime.month == other.mTime.month &&
-               mTime.year == other.mTime.year;
+        return time.day == other.time.day &&
+               time.month == other.time.month &&
+               time.year == other.time.year;
     }
 }

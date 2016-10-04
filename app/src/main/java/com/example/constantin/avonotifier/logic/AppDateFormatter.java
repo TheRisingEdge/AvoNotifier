@@ -13,7 +13,7 @@ public class AppDateFormatter {
     SimpleDateFormat dayNumberFormatter;
 
     public AppDateFormatter(Locale locale) {
-        dateFormatter = new SimpleDateFormat("EEEE, d MMM", locale);
+        dateFormatter = new SimpleDateFormat("d MMM EEEE", locale);
         hourFormatter = new SimpleDateFormat("hh:mm", locale);
 
         dayNameFormatter = new SimpleDateFormat("EEEE", locale);
