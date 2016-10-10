@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.constantin.avonotifier.Globals;
 import com.example.constantin.avonotifier.R;
-import com.example.constantin.avonotifier.logic.Dossie;
+import com.example.constantin.avonotifier.logic.Dossier;
 import com.example.constantin.avonotifier.logic.IUserStorage;
 import com.example.constantin.avonotifier.logic.Meeting;
 import com.example.constantin.avonotifier.logic.AppDateFormatter;
@@ -23,7 +23,7 @@ public class DetailsFragment extends Fragment {
     IUserStorage userStorage;
     AppDateFormatter dateFormatter;
 
-    Dossie dossie;
+    Dossier dossie;
 
     public DetailsFragment() {
         userStorage = Globals.userStorage;
@@ -36,7 +36,7 @@ public class DetailsFragment extends Fragment {
 
         Bundle args = getArguments();
         String dossieId = args.containsKey(DOSSIE_ID) ? args.getString(DOSSIE_ID): "";
-        dossie = userStorage.getDossie(dossieId);
+        dossie = userStorage.getDossier(dossieId);
     }
 
     @Override
@@ -66,13 +66,13 @@ class DossieDetailsView {
     @BindView(R.id.dossieMeetings)
     LinearLayout dossieMeetings;
 
-    public DossieDetailsView(View view, Dossie dossie, AppDateFormatter formatter, LayoutInflater inflater)  {
+    public DossieDetailsView(View view, Dossier dossie, AppDateFormatter formatter, LayoutInflater inflater)  {
         ButterKnife.bind(this, view);
 
-        registered.setText(formatter.getDay(dossie.getRegistered()));
-        modified.setText(formatter.getDay(dossie.getModified()));
-        target.setText(dossie.getTarget());
-        section.setText(dossie.getSection());
+        registered.setText(formatter.getDay(dossie.getRegistered().inMillis));
+        modified.setText(formatter.getDay(dossie.getModified().inMillis));
+        target.setText(dossie.getObiect());
+        section.setText(dossie.getDepatment());
         state.setText(dossie.getState());
 
         for (Meeting m: dossie.getMeetings()) {
@@ -81,15 +81,18 @@ class DossieDetailsView {
     }
 
     void addMeeting(Meeting m, AppDateFormatter formatter, LayoutInflater inflater) {
-        View view = inflater.inflate(R.layout.meeting_view, null);
+        View view = inflater.inflate(R.layout.meeting_view, dossieMeetings, false);
         MeetingView meetingView = new MeetingView(view, m, formatter);
         dossieMeetings.addView(view);
     }
 }
 
 class MeetingView {
-//    @BindView(R.id.dossieMeetingDate)
-//    TextView date;
+    @BindView(R.id.dossierMeetingDate)
+    TextView date;
+
+    @BindView(R.id.dossierMeetingDay)
+    TextView day;
 
     @BindView(R.id.dossieMeetingHour)
     TextView hour;
@@ -106,11 +109,12 @@ class MeetingView {
     public MeetingView(View view, Meeting meeting, AppDateFormatter formatter) {
         ButterKnife.bind(this, view);
 
-        //date.setText(formatter.getDay(meeting.getMeetingTime().inMillis));
+        date.setText(formatter.getDay(meeting.getMeetingTime().inMillis));
+        day.setText(formatter.getDayName(meeting.getMeetingTime().inMillis));
         hour.setText(formatter.getHour(meeting.getMeetingTime().inMillis));
-        document.setText(meeting.getDocument());
+        document.setText(meeting.getComplet()); // todo: fix
         solution.setText(meeting.getSolution());
-        review.setText(meeting.getReview());
+        review.setText(meeting.getSummary());
     }
 }
 

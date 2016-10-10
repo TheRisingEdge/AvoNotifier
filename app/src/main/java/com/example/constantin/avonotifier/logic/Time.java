@@ -1,6 +1,8 @@
 package com.example.constantin.avonotifier.logic;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Time {
     public int year;
@@ -20,6 +22,19 @@ public class Time {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DATE);
         return new Time(calendar.getTimeInMillis(), year, month, day);
+    }
+
+    public static Time FromDate(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        return FromCalendar(c);
+    }
+
+    public static Time FromMillis(long millis) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(millis);
+        return FromCalendar(c);
     }
 }
 

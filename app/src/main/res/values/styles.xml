@@ -33,6 +33,7 @@
     </style>
 
     <style name="dossierContainerLight">
+        <item name="android:background">@drawable/ripple_light</item>
         <item name="android:layout_margin">4dp</item>
         <item name="android:padding">4dp</item>
     </style>
@@ -77,6 +78,9 @@
     <style name="textSmall">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="textDetails" parent="textMedium">
     </style>
 
     <style name="calendarMonth" parent="textBig">

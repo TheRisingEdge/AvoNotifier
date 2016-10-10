@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>AAKQuerySoap methods</title>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/github.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel='stylesheet' type='text/css' href='../Styles/Blueprint_Styles/Style.css' />
+    <script src='../Scripts/Blueprint_Scripts/Script.js' type='text/javascript'></script>
+    <style type="text/css">
+        .syntaxhighlighter {
+            overflow-y: hidden !important;
+            overflow-x: auto !important;
+        }
+    </style>
+</head>
+<body>
+        <h2 id="HelloWorld">HelloWorld</h2>
+        <p>
+            
+        </p>
+        <h4>Synchronous operation</h4>
+        <pre>
+        <code class="java">
+import com.example.constantin.avonotifier.impl.just;
+...
+
+
+            
+AAKQuerySoap service = new AAKQuerySoap("http://portalquery.just.ro/query.asmx");
+String res = service.HelloWorld();
+//in res variable you have a value returned from your web service
+            </code>
+</pre>
+            <p>To invoke a synchronous method, you need to do this in separate thread (for example by using <a href="http://developer.android.com/reference/android/os/AsyncTask.html">AsyncTask</a> class)</p>
+            <h4>Asynchronous operation</h4>
+            <pre>
+            <code class="java">
+import com.example.constantin.avonotifier.impl.just;
+...
+
+AAKQuerySoap service = new AAKQuerySoap(new IServiceEvents() {
+    @Override
+    public void Starting() {
+    }
+    @Override
+    public void Completed(OperationResult result) {
+        String res = (String)result.Result;
+        //in res variable you have a value returned from your web service
+    }
+},"http://portalquery.just.ro/query.asmx");
+service.HelloWorldAsync ();
+                </code>
+</pre>
+        <br />
+        <br />
+        <h2 id="CautareDosare">CautareDosare</h2>
+        <p>
+            
+        </p>
+        <h4>Synchronous operation</h4>
+        <pre>
+        <code class="java">
+import com.example.constantin.avonotifier.impl.just;
+...
+
+String param0 = ...;//initialization code
+String param1 = ...;//initialization code
+String param2 = ...;//initialization code
+AAKEnums.Institutie param3 = Institutie.CurteadeApelBUCURESTI;
+java.util.Date param4 = ...;//initialization code
+java.util.Date param5 = ...;//initialization code
+
+            
+AAKQuerySoap service = new AAKQuerySoap("http://portalquery.just.ro/query.asmx");
+AAKArrayOfDosar res = service.CautareDosare(param0,param1,param2,param3,param4,param5);
+//in res variable you have a value returned from your web service
+            </code>
+</pre>
+            <p>To invoke a synchronous method, you need to do this in separate thread (for example by using <a href="http://developer.android.com/reference/android/os/AsyncTask.html">AsyncTask</a> class)</p>
+            <h4>Asynchronous operation</h4>
+            <pre>
+            <code class="java">
+import com.example.constantin.avonotifier.impl.just;
+...
+String param0 = ...;//initialization code
+String param1 = ...;//initialization code
+String param2 = ...;//initialization code
+AAKEnums.Institutie param3 = Institutie.CurteadeApelBUCURESTI;
+java.util.Date param4 = ...;//initialization code
+java.util.Date param5 = ...;//initialization code
+
+AAKQuerySoap service = new AAKQuerySoap(new IServiceEvents() {
+    @Override
+    public void Starting() {
+    }
+    @Override
+    public void Completed(OperationResult result) {
+        AAKArrayOfDosar res = (AAKArrayOfDosar)result.Result;
+        //in res variable you have a value returned from your web service
+    }
+},"http://portalquery.just.ro/query.asmx");
+service.CautareDosareAsync (param0,param1,param2,param3,param4,param5);
+                </code>
+</pre>
+        <br />
+        <br />
+        <h2 id="CautareDosare2">CautareDosare2</h2>
+        <p>
+            
+        </p>
+        <h4>Synchronous operation</h4>
+        <pre>
+        <code class="java">
+import com.example.constantin.avonotifier.impl.just;
+...
+
+String param0 = ...;//initialization code
+String param1 = ...;//initialization code
+String param2 = ...;//initialization code
+String param3 = ...;//initialization code
+String param4 = ...;//initialization code
+String param5 = ...;//initialization code
+String param6 = ...;//initialization code
+String param7 = ...;//initialization code
+
+            
+AAKQuerySoap service = new AAKQuerySoap("http://portalquery.just.ro/query.asmx");
+String res = service.CautareDosare2(param0,param1,param2,param3,param4,param5,param6,param7);
+//in res variable you have a value returned from your web service
+            </code>
+</pre>
+            <p>To invoke a synchronous method, you need to do this in separate thread (for example by using <a href="http://developer.android.com/reference/android/os/AsyncTask.html">AsyncTask</a> class)</p>
+            <h4>Asynchronous operation</h4>
+            <pre>
+            <code class="java">
+import com.example.constantin.avonotifier.impl.just;
+...
+String param0 = ...;//initialization code
+String param1 = ...;//initialization code
+String param2 = ...;//initialization code
+String param3 = ...;//initialization code
+String param4 = ...;//initialization code
+String param5 = ...;//initialization code
+String param6 = ...;//initialization code
+String param7 = ...;//initialization code
+
+AAKQuerySoap service = new AAKQuerySoap(new IServiceEvents() {
+    @Override
+    public void Starting() {
+    }
+    @Override
+    public void Completed(OperationResult result) {
+        String res = (String)result.Result;
+        //in res variable you have a value returned from your web service
+    }
+},"http://portalquery.just.ro/query.asmx");
+service.CautareDosare2Async (param0,param1,param2,param3,param4,param5,param6,param7);
+                </code>
+</pre>
+        <br />
+        <br />
+        <h2 id="CautareSedinte">CautareSedinte</h2>
+        <p>
+            
+        </p>
+        <h4>Synchronous operation</h4>
+        <pre>
+        <code class="java">
+import com.example.constantin.avonotifier.impl.just;
+...
+
+String param0 = ...;//initialization code
+String param1 = ...;//initialization code
+
+            
+AAKQuerySoap service = new AAKQuerySoap("http://portalquery.just.ro/query.asmx");
+String res = service.CautareSedinte(param0,param1);
+//in res variable you have a value returned from your web service
+            </code>
+</pre>
+            <p>To invoke a synchronous method, you need to do this in separate thread (for example by using <a href="http://developer.android.com/reference/android/os/AsyncTask.html">AsyncTask</a> class)</p>
+            <h4>Asynchronous operation</h4>
+            <pre>
+            <code class="java">
+import com.example.constantin.avonotifier.impl.just;
+...
+String param0 = ...;//initialization code
+String param1 = ...;//initialization code
+
+AAKQuerySoap service = new AAKQuerySoap(new IServiceEvents() {
+    @Override
+    public void Starting() {
+    }
+    @Override
+    public void Completed(OperationResult result) {
+        String res = (String)result.Result;
+        //in res variable you have a value returned from your web service
+    }
+},"http://portalquery.just.ro/query.asmx");
+service.CautareSedinteAsync (param0,param1);
+                </code>
+</pre>
+        <br />
+        <br />
+</body>
+</html>
+

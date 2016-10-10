@@ -76,16 +76,17 @@
                 app:mcv_showOtherDates="out_of_range" />
 
                 <TextView
+                    android:id="@+id/selectedDay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/calendarMonth"
                     android:text="27 Oct, Miercuri"
                     android:background="@color/calendarSelectedBanner"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:gravity="right" />
+                    android:gravity="right"
+                    style="@style/calendarMonth" />
 
                 <LinearLayout
                     android:animateLayoutChanges="true"

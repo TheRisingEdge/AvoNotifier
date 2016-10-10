@@ -9,6 +9,9 @@ public class RealmMeeting extends RealmObject {
 
     private String dossierId;
     private long time;
+    private String complet;
+    private String solution;
+    private String summary;
 
     public RealmMeeting() { }
 
@@ -34,5 +37,29 @@ public class RealmMeeting extends RealmObject {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    public String getComplet() {
+        return complet;
+    }
+
+    public String getSolution() {
+        return solution;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public void setComplet(String complet) {
+        this.complet = complet;
+    }
+
+    public void setSolution(String solution) {
+        this.solution = solution;
     }
 }

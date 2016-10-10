@@ -3,11 +3,22 @@ package com.example.constantin.avonotifier.logic;
 public class Meeting {
     String id;
     String dossierId;
+    String complet;
+    String solution;
+    String summary;
     Time meetingTime;
 
-    public Meeting(String id, String dossierId, Time time) {
+    public Meeting(String id,
+                   String dossierId,
+                   Time time,
+                   String complet,
+                   String solution,
+                   String summary) {
         this.id = id;
         this.dossierId = dossierId;
+        this.complet = complet;
+        this.solution = solution;
+        this.summary = summary;
         this.meetingTime = time;
     }
 
@@ -34,15 +45,19 @@ public class Meeting {
         return  false;
     }
 
-    public String getDocument() {
-        return "OCJP";
+    public String getComplet() {
+        return complet;
+    }
+
+    public String getDossierId() {
+        return dossierId;
     }
 
     public String getSolution() {
-        return "lorem donor ipsum sir";
+        return solution;
     }
 
-    public String getReview() {
-        return "lorem ipsum sir donor";
+    public String getSummary() {
+        return summary;
     }
 }

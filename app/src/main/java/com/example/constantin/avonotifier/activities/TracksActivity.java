@@ -23,11 +23,12 @@ import com.example.constantin.avonotifier.R;
 import com.example.constantin.avonotifier.impl.GoogleCalenderScheduler;
 import com.example.constantin.avonotifier.impl.ToastMessages;
 import com.example.constantin.avonotifier.logic.AppDateFormatter;
-import com.example.constantin.avonotifier.logic.Dossie;
-import com.example.constantin.avonotifier.logic.DossierDownloader;
+import com.example.constantin.avonotifier.logic.Dossier;
 import com.example.constantin.avonotifier.logic.DossieNotifications;
+import com.example.constantin.avonotifier.logic.DownloaderHandler;
 import com.example.constantin.avonotifier.logic.IAppMessages;
 import com.example.constantin.avonotifier.logic.ICalendarScheduler;
+import com.example.constantin.avonotifier.logic.IDossierDownloader;
 import com.example.constantin.avonotifier.logic.IUserStorage;
 import com.example.constantin.avonotifier.logic.Time;
 import com.example.constantin.avonotifier.logic.Meeting;
@@ -38,16 +39,14 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TracksActivity extends AppCompatActivity
-        implements DossierDownloader.Handler, TrackTappedHandler, OnDateSelectedListener {
+        implements DownloaderHandler, TrackTappedHandler, OnDateSelectedListener {
     boolean mTwoPane;
     IAppMessages inAppNotifications;
     IAppMessages calendarNotifications;
@@ -67,11 +66,14 @@ public class TracksActivity extends AppCompatActivity
     @BindView(R.id.selectedDayMeetings)
     LinearLayout selectedDayMeetings;
 
+    @BindView(R.id.selectedDay)
+    TextView selectedDay;
+
     TracksAdapter recyclerAdapter;
 
     IUserStorage userStorage;
     MeetingsCalendar meetingsCalendar;
-    DossierDownloader dossieTracker;
+    IDossierDownloader dossierDownloader;
     DossieNotifications notifications;
     ICalendarScheduler calendar;
     AppDateFormatter formatter;
@@ -85,7 +87,7 @@ public class TracksActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         userStorage = Globals.userStorage;
-        dossieTracker = Globals.dossieTracker;
+        dossierDownloader = Globals.dossierDownloader;
         formatter = Globals.dateFormatter;
         meetingsCalendar = Globals.meetingsCalendar;
 
@@ -94,11 +96,22 @@ public class TracksActivity extends AppCompatActivity
         notifications = new DossieNotifications(this, DetailsActivity.class, formatter);
         calendar = new GoogleCalenderScheduler(this);
 
-        dossieTracker.AddHandler(this);
         mTwoPane = findViewById(R.id.item_detail_container) != null;
 
         initRecyclerView();
         initCalendar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dossierDownloader.subscribe(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        dossierDownloader.unsubscribe(this);
     }
 
     private void initCalendar() {
@@ -127,10 +140,12 @@ public class TracksActivity extends AppCompatActivity
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay day, boolean selected) {
-        Time time = new Time(0, day.getYear(), day.getMonth(), day.getDay());
+        Calendar c = day.getCalendar();
+        Time time = Time.FromCalendar(c);
         List<Meeting> meetings = meetingsCalendar.meetingsInDay(time);
 
         selectedDayMeetings.removeAllViews();
+        selectedDay.setText(formatter.getDay(c.getTimeInMillis()));
 
         LayoutInflater inflater = LayoutInflater.from(selectedDayMeetings.getContext());
         for(Meeting meeting: meetings) {
@@ -174,13 +189,12 @@ public class TracksActivity extends AppCompatActivity
     }
 
     @Override
-    public void HandleDossierDownload(DossierDownloader.Result result) {
+    public void HandleDossierDownload(DownloaderHandler.DownloadResult result) {
         userStorage.addTrack(result.track);
         userStorage.addDossier(result.dossier);
 
         meetingsCalendar.AddMeetings(result.dossier.getMeetings());
         UpdateCalendarDecorations();
-
 
         List<Track> tracks = userStorage.getTracks();
         recyclerAdapter.notifyItemChanged(tracks.size() - 1);
@@ -239,10 +253,11 @@ class TracksAdapter extends RecyclerView.Adapter<TrackView> {
     public void onBindViewHolder(final TrackView itemViewHolder, int position) {
         List<Track> tracks = IUserStorage.getTracks();
         Track track = tracks.get(position);
-        Dossie dossie = IUserStorage.getDossie(track.getDossieId());
+        Dossier dossie = IUserStorage.getDossier(track.getDossieId());
 
         List<Meeting> meetings = dossie.getMeetings();
-        itemViewHolder.Configure(track, meetings.get(meetings.size() - 1));
+        Meeting meeting = meetings.size() > 0 ? meetings.get(0): null;
+        itemViewHolder.Configure(track, dossie, meeting);
     }
 
     @Override
@@ -266,8 +281,18 @@ class TrackView extends RecyclerView.ViewHolder implements View.OnClickListener 
     @BindView(R.id.content)
     TextView contentView;
 
+    @BindView(R.id.location)
+    TextView location;
+
+    @BindView(R.id.stadiu)
+    TextView stadiu;
+
     @BindView(R.id.dossierDate)
     TextView dossierDate;
+
+    @BindView(R.id.dossierDay)
+    TextView dossierDay;
+
 
     public TrackView(View view, AppDateFormatter formatter, TrackTappedHandler handler) {
         super(view);
@@ -278,13 +303,18 @@ class TrackView extends RecyclerView.ViewHolder implements View.OnClickListener 
         ButterKnife.bind(this, view);
     }
 
-    public void Configure(Track track, Meeting meeting) {
+    public void Configure(Track track, Dossier dossier, Meeting meeting) {
         view.setTag(R.string.trackViewTag, track);
         view.setOnClickListener(this);
 
-        idView.setText(meeting.getDossieId());
-        contentView.setText(meeting.getId());
-        dossierDate.setText(formatter.getDay(meeting.getMeetingTime().inMillis));
+        if (meeting != null) {
+            idView.setText(dossier.getId());
+            contentView.setText(dossier.getObiect());
+            location.setText(dossier.getCategory()); // todo: fix
+            stadiu.setText(dossier.getState());
+            dossierDate.setText(formatter.getDay(meeting.getMeetingTime().inMillis));
+            dossierDay.setText(formatter.getDayName(meeting.getMeetingTime().inMillis));
+        }
     }
 
     @Override

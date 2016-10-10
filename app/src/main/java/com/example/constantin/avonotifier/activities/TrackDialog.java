@@ -53,6 +53,6 @@ public class TrackDialog extends DialogFragment implements DialogInterface.OnCli
     public void onClick(DialogInterface dialog, int which) {
         String id = idText.getText().toString();
         Track trackingData = new Track(id);
-        Globals.dossieTracker.Track(trackingData);
+        Globals.dossierDownloader.download(trackingData);
     }
 }

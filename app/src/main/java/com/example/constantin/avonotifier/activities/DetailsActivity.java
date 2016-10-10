@@ -20,17 +20,11 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.detail_toolbar)
     Toolbar toolbar;
 
-    ICalendarScheduler calendar;
-
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.details_activity);
         ButterKnife.bind(this);
-
-        setSupportActionBar(toolbar);
-
-        calendar = new GoogleCalenderScheduler(this);
 
         ShowActionBarUpButton();
         SetupTitle(bundle);
@@ -39,17 +33,16 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void SetupTitle(Bundle bundle) {
         Intent intent = getIntent();
-        String dossieId = intent.getStringExtra(DetailsFragment.DOSSIE_ID);
+        String dossierId = intent.getStringExtra(DetailsFragment.DOSSIE_ID);
+
         ActionBar a = getSupportActionBar();
-        a.setTitle(dossieId);
-        a.setSubtitle("insolventa interservisan");
+        a.setTitle(dossierId);
     }
 
     private void ShowActionBarUpButton() {
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void AddDossieDetailsFragment(Bundle bundle) {
@@ -83,9 +76,5 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void addReminder(View view) {
-        calendar.schedule();
     }
 }

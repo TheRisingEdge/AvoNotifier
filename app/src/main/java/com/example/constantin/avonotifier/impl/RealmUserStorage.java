@@ -2,7 +2,7 @@ package com.example.constantin.avonotifier.impl;
 
 import android.content.Context;
 
-import com.example.constantin.avonotifier.logic.Dossie;
+import com.example.constantin.avonotifier.logic.Dossier;
 import com.example.constantin.avonotifier.logic.IUserStorage;
 import com.example.constantin.avonotifier.logic.Meeting;
 import com.example.constantin.avonotifier.logic.Time;
@@ -40,9 +40,9 @@ public class RealmUserStorage implements IUserStorage {
     }
 
     @Override
-    public void addDossier(Dossie dossie) {
+    public void addDossier(Dossier dossier) {
         realm.beginTransaction();
-        RealmDossier rd = Map(dossie);
+        RealmDossier rd = Map(dossier);
         realm.insertOrUpdate(rd);
         realm.commitTransaction();
     }
@@ -61,8 +61,8 @@ public class RealmUserStorage implements IUserStorage {
     }
 
     @Override
-    public List<Dossie> getDossies() {
-        List<Dossie> bucket = new ArrayList<>();
+    public List<Dossier> getDossiers() {
+        List<Dossier> bucket = new ArrayList<>();
         RealmResults<RealmDossier> rds = realm.where(RealmDossier.class).findAll();
         for (RealmDossier rd: rds) {
             bucket.add(Map(rd));
@@ -72,30 +72,47 @@ public class RealmUserStorage implements IUserStorage {
     }
 
     @Override
-    public Dossie getDossie(String dossieId) {
-        RealmDossier found = realm.where(RealmDossier.class).equalTo("dossierId", dossieId).findFirst();
-        Dossie dossier = Map(found);
-        return  dossier;
+    public Dossier getDossier(String dossierId) {
+        RealmDossier found = realm.where(RealmDossier.class).equalTo("dossierId", dossierId).findFirst();
+        return Map(found);
     }
 
-    Dossie Map(RealmDossier rd) {
+    Dossier Map(RealmDossier rd) {
         List<Meeting> meetings = new ArrayList<>();
         for (RealmMeeting rm : rd.getMeetings()) {
             meetings.add(Map(rm));
         }
 
-        return new Dossie(rd.getDossierId(), meetings);
+        String obiect = rd.getObiect();
+        Time registered = Time.FromMillis(rd.getRegistered());
+        Time modified = Time.FromMillis(rd.getModified());
+        String category = rd.getCategory();
+        String department = rd.getDeparment();
+        String stadiu = rd.getState();
+
+        return new Dossier(rd.getDossierId(), meetings, obiect, registered, modified, category, department, stadiu);
     }
 
     Meeting Map(RealmMeeting rm) {
         calendar.clear();
         calendar.setTimeInMillis(rm.getTime());
-        return new Meeting(rm.getId(), rm.getDossierId(), Time.FromCalendar(calendar));
+        return new Meeting(rm.getId(),
+                           rm.getDossierId(),
+                           Time.FromCalendar(calendar),
+                           rm.getComplet(),
+                           rm.getSolution(),
+                           rm.getSummary());
     }
 
-    RealmDossier Map(Dossie dossie) {
+    RealmDossier Map(Dossier dossie) {
         RealmDossier rd = new RealmDossier();
         rd.setDossierId(dossie.getId());
+        rd.setCategory(dossie.getCategory());
+        rd.setDeparment(dossie.getDepatment());
+        rd.setRegistered(dossie.getRegistered().inMillis);
+        rd.setModified(dossie.getModified().inMillis);
+        rd.setObiect(dossie.getObiect());
+        rd.setState(dossie.getState());
 
         for(Meeting m: dossie.getMeetings()) {
             rd.getMeetings().add(Map(m));
@@ -109,6 +126,9 @@ public class RealmUserStorage implements IUserStorage {
         rm.setId(m.getId());
         rm.setDossierId(m.getDossieId());
         rm.setTime(m.getMeetingTime().inMillis);
+        rm.setComplet(m.getComplet());
+        rm.setSolution(m.getSolution());
+        rm.setSummary(m.getSummary());
         return rm;
     }
 }

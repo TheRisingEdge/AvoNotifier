@@ -18,16 +18,14 @@
 <android.support.v7.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="6dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginBottom="20dp" >
+    android:layout_margin="10dp"
+    app:cardElevation="6dp" >
 
 <TableLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp"
-    android:stretchColumns="1">
+    android:stretchColumns="1"
+    android:padding="20dp" >
 
     <TableRow>
         <TextView
@@ -35,7 +33,7 @@
             android:layout_weight=".3"
             android:layout_height="wrap_content"
             android:text="Modificat"
-            style="@style/textSmall" />
+            style="@style/textDetails" />
 
         <TextView
             android:id="@+id/dossieModified"
@@ -43,8 +41,7 @@
             android:layout_weight=".7"
             android:layout_height="wrap_content"
             android:text="12.10.2013"
-            style="@style/textSmall"
-            android:textStyle="bold" />
+            style="@style/textDetails" />
     </TableRow>
 
     <TableRow>
@@ -53,7 +50,7 @@
             android:layout_weight=".3"
             android:layout_height="wrap_content"
             android:text="Inregistrat"
-            style="@style/textSmall" />
+            style="@style/textDetails" />
 
         <TextView
             android:id="@+id/dossieRegistered"
@@ -61,7 +58,7 @@
             android:layout_weight=".7"
             android:layout_height="wrap_content"
             android:text="12.10.2013"
-            style="@style/textSmall" />
+            style="@style/textDetails" />
 
     </TableRow>
 
@@ -71,7 +68,7 @@
             android:layout_weight=".3"
             android:layout_height="wrap_content"
             android:text="Sectie"
-            style="@style/textSmall" />
+            style="@style/textDetails" />
 
         <TextView
             android:id="@+id/dossieSection"
@@ -79,7 +76,7 @@
             android:layout_weight=".7"
             android:layout_height="wrap_content"
             android:text="Penal"
-            style="@style/textSmall" />
+            style="@style/textDetails" />
     </TableRow>
 
     <TableRow>
@@ -88,7 +85,7 @@
             android:layout_weight=".3"
             android:layout_height="wrap_content"
             android:text="Materie"
-            style="@style/textSmall" />
+            style="@style/textDetails" />
 
         <TextView
             android:id="@+id/dossieMaterie"
@@ -96,7 +93,7 @@
             android:layout_weight=".7"
             android:layout_height="wrap_content"
             android:text="Penal"
-            style="@style/textSmall" />
+            style="@style/textDetails" />
 
     </TableRow>
 
@@ -106,7 +103,7 @@
             android:layout_weight=".3"
             android:layout_height="wrap_content"
             android:text="Obiect"
-            style="@style/textSmall" />
+            style="@style/textDetails" />
 
         <TextView
             android:id="@+id/dossieTarget"
@@ -114,7 +111,7 @@
             android:layout_weight=".7"
             android:layout_height="wrap_content"
             android:text="Penal"
-            style="@style/textSmall" />
+            style="@style/textDetails" />
     </TableRow>
 
     <TableRow>
@@ -123,7 +120,7 @@
             android:layout_weight=".3"
             android:layout_height="wrap_content"
             android:text="Stadiu"
-            style="@style/textSmall" />
+            style="@style/textDetails" />
 
         <TextView
             android:id="@+id/dossieState"
@@ -131,7 +128,7 @@
             android:layout_weight=".7"
             android:layout_height="wrap_content"
             android:text="Penal"
-            style="@style/textSmall" />
+            style="@style/textDetails" />
     </TableRow>
 
 </TableLayout>
@@ -142,24 +139,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sedinte"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp" />
 
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
+        android:id="@+id/dossieMeetings"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="6dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="15dp" >
-
-        <LinearLayout
-            android:id="@+id/dossieMeetings"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp">
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+        android:layout_height="wrap_content" >
+    </LinearLayout>
 </LinearLayout>

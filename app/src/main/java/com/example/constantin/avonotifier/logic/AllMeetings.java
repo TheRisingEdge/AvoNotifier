@@ -1,7 +1,6 @@
 package com.example.constantin.avonotifier.logic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,15 +24,15 @@ class TimeOrderedMeetings implements Comparator<Meeting> {
 }
 
 public class AllMeetings {
-    List<Dossie> dossies;
+    List<Dossier> dossies;
 
-    public AllMeetings(List<Dossie> dossies) {
+    public AllMeetings(List<Dossier> dossies) {
         this.dossies = dossies;
     }
 
     public List<Meeting> all() {
         List<Meeting> bucket = new ArrayList<>();
-        for (Dossie dossie: dossies) {
+        for (Dossier dossie: dossies) {
             List<Meeting> meetings = dossie.getMeetings();
             bucket.addAll(meetings);
         }

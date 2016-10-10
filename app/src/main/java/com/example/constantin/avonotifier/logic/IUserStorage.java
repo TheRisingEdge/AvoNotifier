@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface IUserStorage {
     void addTrack(Track track);
-    void addDossier(Dossie dossie);
+    void addDossier(Dossier dossie);
 
     List<Track> getTracks();
-    List<Dossie> getDossies();
+    List<Dossier> getDossiers();
 
-    Dossie getDossie(String dossieId);
+    Dossier getDossier(String dossieId);
 }

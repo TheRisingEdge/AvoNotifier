@@ -13,9 +13,11 @@
        android:id="@+id/dossierIcon"
        android:layout_width="20sp"
        android:layout_height="20sp"
-       android:background="@drawable/dossier" />
+       android:background="@drawable/dossier"
+       android:layout_alignParentTop="true" />
 
     <LinearLayout
+        android:layout_alignParentTop="true"
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,6 +41,7 @@
         style="@style/dossierSubtext" />
 
     <TextView
+        android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="1"
@@ -46,6 +49,7 @@
         style="@style/dossierSubtext" />
 
     <TextView
+        android:id="@+id/stadiu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="1"
@@ -58,15 +62,26 @@
         android:background="@drawable/calendar_date"
         android:layout_width="20sp"
         android:layout_height="20sp"
-        app:layout_marginStartPercent="50%" />
+        app:layout_marginStartPercent="50%"
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/dossierDate"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="7 Oct, Vineri"
-        style="@style/dossierDate"
+        android:text="7 Oct"
         android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@id/calendarIcon" />
+        android:layout_toRightOf="@id/calendarIcon"
+        style="@style/dossierDate" />
+
+    <TextView
+        android:id="@+id/dossierDay"
+        android:layout_width="wrap_content"
+        android:text="Duminica"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/dossierDate"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBaseline="@id/dossierDate"
+        style="@style/textSmall"
+        android:textStyle="bold" />
 
 </android.support.percent.PercentRelativeLayout>
